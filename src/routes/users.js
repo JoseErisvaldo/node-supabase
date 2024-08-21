@@ -1,17 +1,11 @@
 const express = require('express');
-const { supabase } = require('../supabase/supabaseConnection');
+const userController = require('../controllers/userController');
 const router = express.Router();
 
-router.get('/', async (req, res) => {
-  try {
-    const { data, error } = await supabase.from('users').select('*');
-    if (error) throw error;
+// Rota para listar todos os usuários (GET)
+router.get('/', userController.getUsers);
 
-    res.json({ users: data });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send(error.message);
-  }
-});
+// Rota para criar um novo usuário (POST)
+router.post('/', userController.createUser);
 
 module.exports = router;
